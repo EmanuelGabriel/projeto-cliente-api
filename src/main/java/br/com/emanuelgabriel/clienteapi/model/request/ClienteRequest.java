@@ -3,6 +3,7 @@ package br.com.emanuelgabriel.clienteapi.model.request;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class ClienteRequest {
@@ -13,6 +14,7 @@ public class ClienteRequest {
     @CPF(message = "CPF inválido")
     private String cpf;
 
+    @NotNull
     private LocalDate dataNascimento;
 
     public String getNome() {
