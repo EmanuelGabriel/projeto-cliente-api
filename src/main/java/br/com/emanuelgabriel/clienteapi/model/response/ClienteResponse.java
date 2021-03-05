@@ -1,13 +1,22 @@
 package br.com.emanuelgabriel.clienteapi.model.response;
 
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDate;
 
 public class ClienteResponse {
 
+    @ApiModelProperty(name = "ID do cliente")
     private Long id;
+
+    @ApiModelProperty(value = "Nome do cliente")
     private String nome;
+
+    @ApiModelProperty(value = "CPF do cliente")
     private String cpf;
+
+    @ApiModelProperty(value = "Data de Nascimento do cliente")
     private LocalDate dataNascimento;
 
     public Long getId() {
