@@ -32,7 +32,7 @@ public class SwaggerConfig {
                 .description("Gerencia as informações de clientes e seu controle de acesso")
                 .version("1.0.0")
                 .license("SGSTech Ltda - Soluções Tecnológicas em Software.")
-                .contact(new Contact("Samuel Gabriel Sousa", "https://www.sgstech.com.br", "emanuel.gabriel.sousa@protonmail.com"))
+                .contact(new Contact("Emanuel Gabriel Sousa", "https://www.sgstech.com.br", "emanuel.gabriel.sousa@protonmail.com"))
                 .build();
     }
 

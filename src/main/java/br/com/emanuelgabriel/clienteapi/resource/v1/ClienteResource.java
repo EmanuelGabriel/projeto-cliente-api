@@ -7,7 +7,6 @@ import br.com.emanuelgabriel.clienteapi.service.ClienteService;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,12 +26,16 @@ public class ClienteResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClienteResource.class);
 
-    @Autowired
-    ClienteService clienteService;
+    private final ClienteService clienteService;
+
+    public ClienteResource(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @ApiOperation(value = "Cadastra um cliente", notes = "Este recurso adiciona um cliente", response = ClienteResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Cliente cadastrado"),
+            @ApiResponse(code = 400, message = "Bad request - erro do cliente"),
             @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
             @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 404, message = "Não encontrado"),
