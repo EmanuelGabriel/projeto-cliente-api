@@ -3,6 +3,7 @@ package br.com.emanuelgabriel.clienteapi.resource.v1;
 
 import br.com.emanuelgabriel.clienteapi.model.request.ClienteRequest;
 import br.com.emanuelgabriel.clienteapi.model.response.ClienteResponse;
+import br.com.emanuelgabriel.clienteapi.resource.impl.ClienteResourceService;
 import br.com.emanuelgabriel.clienteapi.service.ClienteService;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -22,25 +23,17 @@ import java.util.Optional;
 @Api(produces = "application/json", consumes = "application/json", value = "Gerencia clientes", tags = {"Gerencia os clientes"})
 @RestController
 @RequestMapping(value = "/api/v1/clientes", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ClienteResource {
+public class ClienteResourceImpl implements ClienteResourceService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClienteResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClienteResourceImpl.class);
 
     private final ClienteService clienteService;
 
-    public ClienteResource(ClienteService clienteService) {
+    public ClienteResourceImpl(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
-    @ApiOperation(value = "Cadastra um cliente", notes = "Este recurso adiciona um cliente", response = ClienteResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Cliente cadastrado"),
-            @ApiResponse(code = 400, message = "Bad request - erro do cliente"),
-            @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
-            @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 404, message = "Não encontrado"),
-            @ApiResponse(code = 500, message = "O servidor encontrou um erro não previsto")
-    })
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ClienteResponse> criar(@Valid @RequestBody ClienteRequest request){
@@ -49,14 +42,7 @@ public class ClienteResource {
         return ResponseEntity.created(location).body(this.clienteService.criar(request));
     }
 
-    @ApiOperation(value = "Lista de clientes", notes = "Este recurso lista todos os clientes cadastrados", response = ClienteResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
-            @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 404, message = "Não encontrado"),
-            @ApiResponse(code = 500, message = "O servidor encontrou um erro não previsto")
-    })
+    @Override
     @GetMapping
     public ResponseEntity<Page<ClienteResponse>> getClientes(Pageable pageable){
         LOGGER.info("Resposta de todos os clientes");
@@ -64,14 +50,7 @@ public class ClienteResource {
         return ResponseEntity.ok(clienteResponses);
     }
 
-    @ApiOperation(value = "Atualiza um cliente", notes = "Este recurso atualiza um cliente por ID", response = ClienteResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "OK"),
-            @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
-            @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 404, message = "Não encontrado"),
-            @ApiResponse(code = 500, message = "O servidor encontrou um erro não previsto")
-    })
+    @Override
     @PutMapping(value = "/{idCliente}")
     public ResponseEntity<ClienteResponse> atualizar(@ApiParam(name = "idCliente", value = "ID do cliente", required = true, example = "1") @PathVariable("idCliente") Long idCliente, @RequestBody ClienteRequest request){
         LOGGER.info("Requisição recebida para atualizar registro {}", request);
@@ -83,14 +62,7 @@ public class ClienteResource {
     }
 
 
-    @ApiOperation(value = "Busca cliente por ID", notes = "Este recurso buscar um cliente por ID", response = ClienteResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
-            @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 404, message = "Não encontrado"),
-            @ApiResponse(code = 500, message = "O servidor encontrou um erro não previsto")
-    })
+    @Override
     @GetMapping(value = "/{idCliente}")
     public ResponseEntity<ClienteResponse> buscarPorID(@ApiParam(name = "idCliente", value = "ID do cliente", required = true, example = "1") @PathVariable("idCliente") Long idCliente){
         LOGGER.info("Requisição recebida para buscar registro por ID {}", idCliente);
@@ -100,15 +72,7 @@ public class ClienteResource {
     }
 
 
-    @ApiOperation(value = "Remove cliente por ID", notes = "Este recurso remove um cliente por ID", response = Void.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 204, message = "No Content - sem conteúdo"),
-            @ApiResponse(code = 401, message = "Unauthorized - não autorizado"),
-            @ApiResponse(code = 403, message = "Forbidden - Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 404, message = "Não encontrado"),
-            @ApiResponse(code = 500, message = "O servidor encontrou um erro não previsto")
-    })
+    @Override
     @DeleteMapping(value = "/{idCliente}")
     public ResponseEntity<Void> remover(@ApiParam(name = "idCliente", value = "ID do cliente", required = true, example = "1") @PathVariable("idCliente") Long idCliente){
         LOGGER.info("Requisição recebida para remoção do registro por ID {}", idCliente);
