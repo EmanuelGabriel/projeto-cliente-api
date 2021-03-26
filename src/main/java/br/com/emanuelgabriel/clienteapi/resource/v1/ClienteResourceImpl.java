@@ -71,7 +71,6 @@ public class ClienteResourceImpl implements ClienteResourceService {
 
     }
 
-
     @Override
     @DeleteMapping(value = "/{idCliente}")
     public ResponseEntity<Void> remover(@ApiParam(name = "idCliente", value = "ID do cliente", required = true, example = "1") @PathVariable("idCliente") Long idCliente){
